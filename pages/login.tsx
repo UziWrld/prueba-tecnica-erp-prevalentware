@@ -10,10 +10,15 @@ export default function Login() {
 
   const handleLogin = async () => {
     setIsLoading(true);
-    await authClient.signIn.social({
-      provider: 'github',
-      callbackURL: '/',
-    });
+    try {
+      await authClient.signIn.social({
+        provider: 'github',
+        callbackURL: window.location.origin + '/',
+      });
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      setIsLoading(false);
+    }
   };
 
   return (
