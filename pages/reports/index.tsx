@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
-  LayoutDashboard,
+  BarChart3,
   Download,
   Wallet,
   ArrowUpRight,
@@ -53,34 +53,74 @@ export default function Reports({ user }: { user: any }) {
     fetchReports();
   }, []);
 
-  // Genera y descarga un archivo CSV con todos los movimientos financieros utilizando PapaParse
+  // Genera y descarga un archivo CSV enriquecido con tres secciones:
+  // 1. Cabecera institucional con metadatos del reporte
+  // 2. Resumen ejecutivo (KPIs: ingresos, egresos, saldo)
+  // 3. Detalle completo de todos los movimientos registrados
   const handleDownloadCSV = () => {
     if (!data || !data.movements) return;
 
-    // Aplanar y formatear los datos para las columnas del CSV
-    const csvData = data.movements.map((mov: any) => ({
-      ID: mov.id,
-      Concepto: mov.concept,
-      Monto: mov.amount,
-      Fecha: new Date(mov.date).toISOString().split('T')[0],
-      Tipo: mov.type === 'INCOME' ? 'Ingreso' : 'Egreso',
-      Usuario_Nombre: mov.user.name,
-      Usuario_Email: mov.user.email,
-    }));
+    const today = new Date();
+    const dateStr = today.toLocaleDateString('es-CO', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    const fileDate = today.toISOString().split('T')[0];
 
-    // Convertir JSON a string en formato CSV
-    const csv = Papa.unparse(csvData);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    // Calcular KPIs para el bloque de resumen
+    const totalIngresos = data.movements
+      .filter((m: any) => m.type === 'INCOME')
+      .reduce((a: number, b: any) => a + b.amount, 0);
+
+    const totalEgresos = data.movements
+      .filter((m: any) => m.type === 'EXPENSE')
+      .reduce((a: number, b: any) => a + b.amount, 0);
+
+    const saldo = totalIngresos - totalEgresos;
+
+    // Construir el CSV manualmente para tener control total del formato
+    const lines: string[] = [];
+
+    // --- SECCIÓN 1: Cabecera institucional ---
+    lines.push('REPORTE FINANCIERO - PrevalentWare Digital Solutions');
+    lines.push(`Fecha de generacion,${dateStr}`);
+    lines.push(`Total de movimientos,${data.movements.length}`);
+    lines.push('');
+
+    // --- SECCIÓN 2: Resumen ejecutivo ---
+    lines.push('RESUMEN EJECUTIVO');
+    lines.push(`Total Ingresos,$${totalIngresos.toLocaleString('es-CO')}`);
+    lines.push(`Total Egresos,$${totalEgresos.toLocaleString('es-CO')}`);
+    lines.push(`Saldo Neto,$${saldo.toLocaleString('es-CO')}`);
+    lines.push('');
+
+    // --- SECCIÓN 3: Detalle de movimientos ---
+    lines.push('DETALLE DE MOVIMIENTOS');
+    lines.push('Concepto,Tipo,Monto,Fecha,Registrado Por,Email');
+
+    data.movements.forEach((mov: any) => {
+      const fecha = new Date(mov.date).toLocaleDateString('es-CO');
+      const tipo = mov.type === 'INCOME' ? 'Ingreso' : 'Egreso';
+      const montoFormateado = `$${mov.amount.toLocaleString('es-CO')}`;
+      // Escapar comillas en el concepto por si tiene comas
+      const concepto = `"${mov.concept.replace(/"/g, '""')}"`;
+      lines.push(
+        `${concepto},${tipo},${montoFormateado},${fecha},"${mov.user.name}",${mov.user.email}`
+      );
+    });
+
+    // Unir todas las líneas y crear el archivo
+    const csv = lines.join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute(
-      'download',
-      `reporte_financiero_${new Date().toISOString().split('T')[0]}.csv`
-    );
+    link.setAttribute('download', `reporte_financiero_${fileDate}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   if (user?.role !== 'ADMIN') {
@@ -94,6 +134,18 @@ export default function Reports({ user }: { user: any }) {
       </div>
     );
   }
+
+  // Formateador inteligente para el eje Y: adapta la escala a millones (M) o miles (k)
+  // para que valores como 15.000.000 muestren '$15M' en lugar de '$15000k'
+  const formatearEje = (value: number) => {
+    if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(value % 1_000_000 === 0 ? 0 : 1)}M`;
+    if (value >= 1_000) return `$${(value / 1_000).toFixed(value % 1_000 === 0 ? 0 : 1)}k`;
+    return `$${value}`;
+  };
+
+  // Formateador del tooltip: muestra el valor completo en pesos colombianos
+  const formatearTooltip = (value: number) =>
+    [`$${value.toLocaleString('es-CO')}`, ''];
 
   // Agrupar movimientos por mes cronológico para graficar en Recharts
   const chartData =
@@ -129,7 +181,7 @@ export default function Reports({ user }: { user: any }) {
       <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
         <div>
           <h2 className='text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2'>
-            <LayoutDashboard className='w-6 h-6 text-emerald-600' />
+            <BarChart3 className='w-6 h-6 text-emerald-600' />
             Reporte Financiero
           </h2>
           <p className='text-sm text-slate-500 mt-1'>
@@ -214,7 +266,7 @@ export default function Reports({ user }: { user: any }) {
                 <ResponsiveContainer width='100%' height='100%'>
                   <BarChart
                     data={chartData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    margin={{ top: 5, right: 30, left: 55, bottom: 5 }}
                   >
                     <CartesianGrid
                       strokeDasharray='3 3'
@@ -228,14 +280,18 @@ export default function Reports({ user }: { user: any }) {
                       tick={{ fill: '#64748b', fontSize: 12 }}
                       dy={10}
                     />
+                    {/* tickFormatter usa el formateador inteligente que adapta a M o k según la magnitud */}
                     <YAxis
                       axisLine={false}
                       tickLine={false}
                       tick={{ fill: '#64748b', fontSize: 12 }}
-                      tickFormatter={(value) => `$${value / 1000}k`}
+                      tickFormatter={formatearEje}
+                      width={60}
                     />
+                    {/* El tooltip muestra el valor completo sin abreviar */}
                     <Tooltip
                       cursor={{ fill: '#f1f5f9' }}
+                      formatter={formatearTooltip}
                       contentStyle={{
                         borderRadius: '8px',
                         border: 'none',

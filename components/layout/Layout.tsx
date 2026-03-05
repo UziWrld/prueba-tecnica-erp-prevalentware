@@ -1,12 +1,12 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import {
-  LayoutDashboard,
-  Users,
-  ReceiptText,
+  BarChart3,
+  UserCog,
+  ArrowDownUp,
   LogOut,
-  Code2,
 } from 'lucide-react';
 import { authClient } from '@/lib/auth/client';
 
@@ -37,14 +37,14 @@ export default function Layout({
     {
       label: 'Movimientos',
       href: '/movements',
-      icon: ReceiptText,
+      icon: ArrowDownUp,
       roles: ['ADMIN', 'USER'],
     },
-    { label: 'Usuarios', href: '/users', icon: Users, roles: ['ADMIN'] },
+    { label: 'Usuarios', href: '/users', icon: UserCog, roles: ['ADMIN'] },
     {
       label: 'Reportes',
       href: '/reports',
-      icon: LayoutDashboard,
+      icon: BarChart3,
       roles: ['ADMIN'],
     },
   ];
@@ -57,11 +57,15 @@ export default function Layout({
 
       {/* Sidebar */}
       <aside className='w-64 bg-slate-900 text-slate-300 flex flex-col transition-all duration-300 border-r border-slate-800'>
-        <div className='h-16 flex items-center px-6 border-b border-slate-800 bg-slate-950'>
-          <Code2 className='w-6 h-6 text-blue-500 mr-3' />
-          <span className='font-bold text-lg text-white tracking-wide'>
-            Prevalent<span className='text-blue-500'>Ware</span>
-          </span>
+        {/* Logo de la empresa directamente sobre el fondo oscuro del sidebar */}
+        <div className='h-16 flex items-center px-5 border-b border-slate-800 bg-slate-950'>
+          <Image
+            src='/logo-prevalentware.png'
+            alt='PrevalentWare'
+            width={130}
+            height={32}
+            className='object-contain h-7 w-auto'
+          />
         </div>
 
         <nav className='flex-1 py-6 px-3 space-y-1'>
@@ -78,11 +82,10 @@ export default function Layout({
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center px-3 py-2.5 rounded-lg transition-colors group ${
-                  isActive
-                    ? 'bg-blue-600 text-white shadow-md shadow-blue-900/20'
-                    : 'hover:bg-slate-800 hover:text-white'
-                }`}
+                className={`flex items-center px-3 py-2.5 rounded-lg transition-colors group ${isActive
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-900/20'
+                  : 'hover:bg-slate-800 hover:text-white'
+                  }`}
               >
                 <item.icon
                   className={`w-5 h-5 mr-3 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-400'}`}
@@ -122,7 +125,7 @@ export default function Layout({
                 </p>
               </div>
               <div className='w-10 h-10 rounded-full border-2 border-blue-100 bg-blue-50 flex items-center justify-center text-blue-700 font-bold overflow-hidden'>
-                <Users className='w-5 h-5 text-blue-500' />
+                <UserCog className='w-5 h-5 text-blue-500' />
               </div>
             </div>
           </div>

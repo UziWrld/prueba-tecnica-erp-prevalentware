@@ -7,7 +7,7 @@ import {
   CardFooter,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ReceiptText, Users, LayoutDashboard, ArrowRight } from 'lucide-react';
+import { ArrowDownUp, UserCog, BarChart3, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home({ user }: { user: any }) {
@@ -19,7 +19,7 @@ export default function Home({ user }: { user: any }) {
     {
       title: 'Movimientos Financieros',
       description: 'Gestión central de ingresos y egresos.',
-      icon: ReceiptText,
+      icon: ArrowDownUp,
       href: '/movements',
       color: 'text-blue-500',
       bg: 'bg-blue-500/10',
@@ -28,7 +28,7 @@ export default function Home({ user }: { user: any }) {
     {
       title: 'Control de Usuarios',
       description: 'Administración de accesos y roles.',
-      icon: Users,
+      icon: UserCog,
       href: '/users',
       color: 'text-indigo-500',
       bg: 'bg-indigo-500/10',
@@ -37,7 +37,7 @@ export default function Home({ user }: { user: any }) {
     {
       title: 'Reportes y Analítica',
       description: 'Gráficos financieros y descarga CSV.',
-      icon: LayoutDashboard,
+      icon: BarChart3,
       href: '/reports',
       color: 'text-emerald-500',
       bg: 'bg-emerald-500/10',

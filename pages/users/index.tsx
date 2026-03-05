@@ -175,11 +175,10 @@ export default function Users({ user }: { user: any }) {
                           </select>
                         ) : (
                           <span
-                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${
-                              u.role === 'ADMIN'
+                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${u.role === 'ADMIN'
                                 ? 'bg-indigo-100 text-indigo-800 border-indigo-200'
                                 : 'bg-slate-100 text-slate-800 border-slate-200'
-                            }`}
+                              }`}
                           >
                             {u.role === 'ADMIN' && (
                               <Shield className='w-3 h-3 mr-1' />

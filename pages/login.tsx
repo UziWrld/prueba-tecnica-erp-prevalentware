@@ -1,16 +1,9 @@
 import { authClient } from '@/lib/auth/client';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from '@/components/ui/card';
-import { Code2, Github, ArrowRight } from 'lucide-react';
+import { Github, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,54 +17,79 @@ export default function Login() {
   };
 
   return (
-    <div className='min-h-screen bg-slate-50 flex items-center justify-center p-4 relative overflow-hidden'>
+    <div className='min-h-screen bg-slate-950 flex flex-col items-center justify-center relative overflow-hidden'>
       <Head>
-        <title>Login - PrevalentWare</title>
+        <title>Iniciar Sesión - PrevalentWare ERP</title>
       </Head>
 
-      {/* Background decoration */}
-      <div className='absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none'>
-        <div className='absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-3xl' />
-        <div className='absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-500/10 rounded-full blur-3xl' />
-      </div>
+      {/* Efectos de luz decorativos en el fondo */}
+      <div className='absolute top-[-30%] left-[-10%] w-[50%] h-[50%] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none' />
+      <div className='absolute bottom-[-30%] right-[-10%] w-[50%] h-[50%] bg-indigo-600/15 rounded-full blur-[120px] pointer-events-none' />
+      <div className='absolute top-[40%] left-[40%] w-[20%] h-[20%] bg-blue-400/10 rounded-full blur-[80px] pointer-events-none' />
 
-      <Card className='w-full max-w-md shadow-2xl shadow-blue-900/5 border-slate-200/60 z-10 bg-white/80 backdrop-blur-xl'>
-        <CardHeader className='space-y-4 items-center pt-10'>
-          <div className='w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/30 transform transition-transform hover:scale-105'>
-            <Code2 className='w-8 h-8 text-white' />
+      {/* Grilla decorativa sutil en el fondo */}
+      <div
+        className='absolute inset-0 pointer-events-none'
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      {/* Contenido principal */}
+      <div className='z-10 flex flex-col items-center gap-10 w-full max-w-sm px-4'>
+
+        {/* Logo de PrevalentWare - blanco, directamente sobre el fondo oscuro */}
+        <div className='flex flex-col items-center gap-3'>
+          <Image
+            src='/logo-prevalentware.png'
+            alt='PrevalentWare'
+            width={200}
+            height={50}
+            className='object-contain'
+            priority
+          />
+          <span className='text-slate-500 text-sm tracking-widest uppercase font-medium'>
+            ERP Financiero
+          </span>
+        </div>
+
+        {/* Card de login con glassmorphism */}
+        <div className='w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl shadow-black/40'>
+          <div className='mb-8 text-center'>
+            {/* Ícono con brillo */}
+            <div className='inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/30 mb-4'>
+              <ShieldCheck className='w-5 h-5 text-blue-400' />
+            </div>
+            <h2 className='text-xl font-bold text-white tracking-tight'>
+              Acceso Seguro
+            </h2>
+            <p className='text-slate-400 text-sm mt-1'>
+              Autentícate con tu cuenta corporativa de GitHub
+            </p>
           </div>
-          <div className='text-center space-y-2'>
-            <CardTitle className='text-3xl font-bold tracking-tight text-slate-900'>
-              Prevalent<span className='text-blue-600'>Ware</span>
-            </CardTitle>
-            <CardDescription className='text-base text-slate-500'>
-              Sistema de Gestión ERP Financiera
-            </CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent className='pt-6 pb-8'>
+
           <Button
-            className='w-full h-12 text-base font-medium transition-all shadow-md hover:shadow-lg bg-slate-900 hover:bg-slate-800 text-white'
+            className='w-full h-12 text-sm font-semibold bg-white hover:bg-slate-100 text-slate-900 gap-3 transition-all duration-200 shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/30 hover:-translate-y-0.5'
             onClick={handleLogin}
             disabled={isLoading}
           >
             {isLoading ? (
-              <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2' />
+              <div className='w-4 h-4 border-2 border-slate-400/40 border-t-slate-700 rounded-full animate-spin' />
             ) : (
-              <Github className='w-5 h-5 mr-3' />
+              <Github className='w-5 h-5' />
             )}
-            Continuar con GitHub
-            {!isLoading && (
-              <ArrowRight className='w-4 h-4 ml-auto opacity-70' />
-            )}
+            {isLoading ? 'Redirigiendo...' : 'Continuar con GitHub'}
+            {!isLoading && <ArrowRight className='w-4 h-4 ml-auto text-slate-400' />}
           </Button>
-        </CardContent>
-        <CardFooter className='justify-center border-t border-slate-100 bg-slate-50/50 py-4'>
-          <p className='text-sm text-slate-500 text-center'>
-            Uso exclusivo para personal autorizado.
-          </p>
-        </CardFooter>
-      </Card>
+
+          <div className='mt-6 pt-5 border-t border-white/10 flex items-center justify-center gap-2 text-slate-500 text-xs'>
+            <Lock className='w-3 h-3' />
+            <span>Uso exclusivo para personal autorizado</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
+
