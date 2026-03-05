@@ -30,24 +30,27 @@ import { requireAuth } from '@/lib/api-helpers';
  *       403:
  *         description: Acceso denegado - se requiere rol ADMIN
  */
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const session = await requireAuth(req, res, 'ADMIN');
-    if (!session) return;
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const session = await requireAuth(req, res, 'ADMIN');
+  if (!session) return;
 
-    if (req.method === 'GET') {
-        const movements = await prisma.movement.findMany({
-            include: { user: { select: { name: true, email: true } } },
-            orderBy: { date: 'asc' },
-        });
+  if (req.method === 'GET') {
+    const movements = await prisma.movement.findMany({
+      include: { user: { select: { name: true, email: true } } },
+      orderBy: { date: 'asc' },
+    });
 
-        // Calcular el saldo actual: suma de ingresos - suma de egresos
-        const balance = movements.reduce((acc, m) => {
-            return m.type === 'INCOME' ? acc + m.amount : acc - m.amount;
-        }, 0);
+    // Calcular el saldo actual: suma de ingresos - suma de egresos
+    const balance = movements.reduce((acc, m) => {
+      return m.type === 'INCOME' ? acc + m.amount : acc - m.amount;
+    }, 0);
 
-        return res.status(200).json({ balance, movements });
-    }
+    return res.status(200).json({ balance, movements });
+  }
 
-    res.setHeader('Allow', ['GET']);
-    res.status(405).json({ error: `Método ${req.method} no permitido.` });
+  res.setHeader('Allow', ['GET']);
+  res.status(405).json({ error: `Método ${req.method} no permitido.` });
 }

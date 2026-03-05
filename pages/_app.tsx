@@ -12,7 +12,9 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
 
-  const isPublicPage = publicPages.includes(router.pathname) || router.pathname.startsWith('/api/docs');
+  const isPublicPage =
+    publicPages.includes(router.pathname) ||
+    router.pathname.startsWith('/api/docs');
 
   useEffect(() => {
     if (!isPending) {
@@ -28,8 +30,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   if (isPending) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-blue-500/30 border-t-blue-600 rounded-full animate-spin" />
+      <div className='min-h-screen bg-slate-50 flex items-center justify-center'>
+        <div className='w-8 h-8 border-4 border-blue-500/30 border-t-blue-600 rounded-full animate-spin' />
       </div>
     );
   }

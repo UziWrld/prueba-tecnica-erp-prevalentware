@@ -18,24 +18,27 @@ import { requireAuth } from '@/lib/api-helpers';
  *       403:
  *         description: Acceso denegado - se requiere rol ADMIN
  */
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const session = await requireAuth(req, res, 'ADMIN');
-    if (!session) return;
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const session = await requireAuth(req, res, 'ADMIN');
+  if (!session) return;
 
-    if (req.method === 'GET') {
-        const users = await prisma.user.findMany({
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                role: true,
-                createdAt: true,
-            },
-            orderBy: { createdAt: 'desc' },
-        });
-        return res.status(200).json(users);
-    }
+  if (req.method === 'GET') {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    return res.status(200).json(users);
+  }
 
-    res.setHeader('Allow', ['GET']);
-    res.status(405).json({ error: `Método ${req.method} no permitido.` });
+  res.setHeader('Allow', ['GET']);
+  res.status(405).json({ error: `Método ${req.method} no permitido.` });
 }

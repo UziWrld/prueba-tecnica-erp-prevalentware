@@ -42,34 +42,41 @@ import { requireAuth } from '@/lib/api-helpers';
  *       404:
  *         description: Usuario no encontrado
  */
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const session = await requireAuth(req, res, 'ADMIN');
-    if (!session) return;
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const session = await requireAuth(req, res, 'ADMIN');
+  if (!session) return;
 
-    const { id } = req.query;
+  const { id } = req.query;
 
-    if (req.method === 'PUT') {
-        const { name, role } = req.body;
+  if (req.method === 'PUT') {
+    const { name, role } = req.body;
 
-        if (!name && !role) {
-            return res.status(400).json({ error: 'Se requiere al menos el campo name o role.' });
-        }
-
-        const existingUser = await prisma.user.findUnique({ where: { id: id as string } });
-        if (!existingUser) {
-            return res.status(404).json({ error: 'Usuario no encontrado.' });
-        }
-
-        const updatedUser = await prisma.user.update({
-            where: { id: id as string },
-            data: {
-                ...(name && { name }),
-                ...(role && { role }),
-            },
-        });
-        return res.status(200).json(updatedUser);
+    if (!name && !role) {
+      return res
+        .status(400)
+        .json({ error: 'Se requiere al menos el campo name o role.' });
     }
 
-    res.setHeader('Allow', ['PUT']);
-    res.status(405).json({ error: `Método ${req.method} no permitido.` });
+    const existingUser = await prisma.user.findUnique({
+      where: { id: id as string },
+    });
+    if (!existingUser) {
+      return res.status(404).json({ error: 'Usuario no encontrado.' });
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: id as string },
+      data: {
+        ...(name && { name }),
+        ...(role && { role }),
+      },
+    });
+    return res.status(200).json(updatedUser);
+  }
+
+  res.setHeader('Allow', ['PUT']);
+  res.status(405).json({ error: `Método ${req.method} no permitido.` });
 }

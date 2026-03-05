@@ -2,38 +2,42 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import swaggerJsdoc from 'swagger-jsdoc';
 
 const options: swaggerJsdoc.Options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'API – Gestión de Ingresos y Egresos',
-            version: '1.0.0',
-            description: 'Documentación de los endpoints REST de la prueba técnica fullstack.',
-        },
-        components: {
-            securitySchemes: {
-                sessionAuth: {
-                    type: 'apiKey',
-                    in: 'cookie',
-                    name: 'better-auth.session_token',
-                    description: 'Token de sesión generado por Better Auth al iniciar sesión con GitHub.',
-                },
-            },
-        },
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'API – Gestión de Ingresos y Egresos',
+      version: '1.0.0',
+      description:
+        'Documentación de los endpoints REST de la prueba técnica fullstack.',
     },
-    apis: ['./pages/api/**/*.ts'],
+    components: {
+      securitySchemes: {
+        sessionAuth: {
+          type: 'apiKey',
+          in: 'cookie',
+          name: 'better-auth.session_token',
+          description:
+            'Token de sesión generado por Better Auth al iniciar sesión con GitHub.',
+        },
+      },
+    },
+  },
+  apis: ['./pages/api/**/*.ts'],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
 
 // Sirve la especificación OpenAPI como JSON en /api/docs
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== 'GET') {
-        res.setHeader('Allow', ['GET']);
-        return res.status(405).json({ error: `Método ${req.method} no permitido.` });
-    }
+  if (req.method !== 'GET') {
+    res.setHeader('Allow', ['GET']);
+    return res
+      .status(405)
+      .json({ error: `Método ${req.method} no permitido.` });
+  }
 
-    res.setHeader('Content-Type', 'text/html');
-    res.status(200).send(`
+  res.setHeader('Content-Type', 'text/html');
+  res.status(200).send(`
     <!DOCTYPE html>
     <html lang="es">
       <head>
