@@ -1,6 +1,6 @@
 import { authClient } from '@/lib/auth/client';
 import { Button } from '@/components/ui/button';
-import { Github, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Github, ArrowRight, ShieldCheck, Lock } from 'lucide-react';
 import { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
