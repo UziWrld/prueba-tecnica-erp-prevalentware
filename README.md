@@ -67,8 +67,7 @@ Puedes visualizar los endpoints, esquemas de solicitud y respuesta iniciando el 
 ### Instrucciones de Despliegue en Vercel
 
 1. **Subir a GitHub**:
-   Sube este repositorio a una cuenta de GitHub de manera privada o pública como requieras y comparte el acceso con `mlopera@prevalentware.com`, `jdsanchez@prevalentware.com` y `dfsorza@prevalentware.com`.
-
+   Sube este repositorio a una cuenta de GitHub de manera privada o pública como requieras.
 2. **Vercel Dashboard**:
    - Ingresa a Vercel y selecciona **Add New... > Project**.
    - Importa el repositorio recién subido.
