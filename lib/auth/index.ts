@@ -3,15 +3,22 @@ import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { prisma } from '@/lib/prisma';
 
 export const auth = betterAuth({
-  // URL base dinámica que prioriza la de producción pero acepta la de Vercel
-  baseURL: process.env.BETTER_AUTH_URL || 'https://prueba-tecnica-erp-prevalentware-ke.vercel.app',
+  // URL base dinámica: Prioridad a env var, luego Vercel URL, luego fallback producción
+  baseURL:
+    process.env.BETTER_AUTH_URL ||
+    (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'https://prueba-tecnica-erp-prevalentware-ke.vercel.app'),
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
   advanced: {
-    // Esto ayuda a que Better Auth confíe en los proxies de Vercel
+    // Esto asegura que las cookies sean seguras en Vercel
     useSecureCookies: true,
   },
+  trustedOrigins: [
+    'https://prueba-tecnica-erp-prevalentware-ke.vercel.app',
+    'https://prueba-tecnica-erp-prevalentware-kevin-torres-io9ek364d.vercel.app',
+    'https://prueba-tecnica-erp-prevalentware-ke-git-main-uziwrlds-projects.vercel.app'
+  ],
   user: {
     additionalFields: {
       role: {
