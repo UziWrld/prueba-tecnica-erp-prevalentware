@@ -3,12 +3,12 @@ import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { prisma } from '@/lib/prisma';
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
-  trustedOrigins: [
-    process.env.BETTER_AUTH_URL as string,
-    process.env.NEXT_PUBLIC_BETTER_AUTH_URL as string,
-    'https://prueba-tecnica-erp-prevalentware-ke.vercel.app'
-  ],
+  // Detectar la URL base dinámicamente para evitar errores 403 de CORS/CSRF en Vercel Previews
+  baseURL:
+    process.env.BETTER_AUTH_URL ||
+    (process.env.NEXT_PUBLIC_VERCEL_URL
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+      : process.env.NEXT_PUBLIC_BETTER_AUTH_URL),
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
