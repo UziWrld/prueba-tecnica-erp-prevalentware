@@ -1,12 +1,12 @@
 ## Prueba Técnica para Desarrollador Fullstack - PrevalentWare
 
-**🔗 Despliegue en Producción (Vercel):** [https://prueba-tecnica-erp-prevalentware-ke.vercel.app/](https://prueba-tecnica-erp-prevalentware-ke.vercel.app/)
+** Despliegue en Producción (Vercel):** [https://prueba-tecnica-erp-prevalentware-ke.vercel.app/](https://prueba-tecnica-erp-prevalentware-ke.vercel.app/)
 
-### 🚀 Resumen del Proyecto
+### Resumen del Proyecto
 
 Sistema de gestión ERP fullstack con Next.js, Prisma, Supabase y Better Auth. Permite administrar ingresos, egresos, usuarios y generar reportes financieros con exportación a CSV.
 
-### 🛠️ Tecnologías Utilizadas
+### Tecnologías Utilizadas
 
 - **Frontend**: Next.js (Pages Router), Tailwind CSS, Shadcn UI, Recharts, Lucide React.
 - **Backend**: Next.js API Routes, Prisma ORM, PostgreSQL (Supabase).
@@ -15,7 +15,7 @@ Sistema de gestión ERP fullstack con Next.js, Prisma, Supabase y Better Auth. P
 
 ---
 
-### ⚙️ Instrucciones para Ejecutar Localmente
+### Instrucciones para Ejecutar Localmente
 
 1. **Instalar dependencias**:
 
@@ -50,7 +50,7 @@ Sistema de gestión ERP fullstack con Next.js, Prisma, Supabase y Better Auth. P
 
 ---
 
-### 🧪 Pruebas Unitarias
+### Pruebas Unitarias
 
 Para correr los tests unitarios (helpers API y utilidades Tailwind):
 
@@ -58,14 +58,13 @@ Para correr los tests unitarios (helpers API y utilidades Tailwind):
 npm run test
 ```
 
-### 📄 Documentación API (Swagger)
+### Documentación API (Swagger)
 
 Puedes visualizar los endpoints, esquemas de solicitud y respuesta iniciando el servidor local y navegando a:
-👉 [http://localhost:3000/api/docs](http://localhost:3000/api/docs)
-
+[http://localhost:3000/api/docs](http://localhost:3000/api/docs)
 ---
 
-### 🚢 Instrucciones de Despliegue en Vercel
+### Instrucciones de Despliegue en Vercel
 
 1. **Subir a GitHub**:
    Sube este repositorio a una cuenta de GitHub de manera privada o pública como requieras y comparte el acceso con `mlopera@prevalentware.com`, `jdsanchez@prevalentware.com` y `dfsorza@prevalentware.com`.
