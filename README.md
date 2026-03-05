@@ -1,5 +1,7 @@
 ## Prueba Técnica para Desarrollador Fullstack - PrevalentWare
 
+**🔗 Despliegue en Producción (Vercel):** [https://prueba-tecnica-erp-prevalentware-ke.vercel.app/](https://prueba-tecnica-erp-prevalentware-ke.vercel.app/)
+
 ### 🚀 Resumen del Proyecto
 
 Sistema de gestión ERP fullstack con Next.js, Prisma, Supabase y Better Auth. Permite administrar ingresos, egresos, usuarios y generar reportes financieros con exportación a CSV.
