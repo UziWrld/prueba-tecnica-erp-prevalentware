@@ -112,8 +112,17 @@ export default function Layout({
       <main className='flex-1 flex flex-col overflow-hidden'>
         {/* Topbar */}
         <header className='h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 shadow-sm z-10'>
-          <h1 className='text-xl font-semibold text-slate-800 capitalize'>
-            {router.pathname.split('/')[1] || 'Dashboard'}
+          <h1 className='text-xl font-semibold text-slate-800'>
+            {(() => {
+              const path = router.pathname.split('/')[1];
+              const titles: Record<string, string> = {
+                '': 'Panel de Control',
+                'users': 'Gestión de Usuarios',
+                'movements': 'Movimientos Financieros',
+                'reports': 'Reportes y Analítica',
+              };
+              return titles[path] || titles[''];
+            })()}
           </h1>
           <div className='flex items-center gap-4'>
             <div className='flex items-center gap-3'>
