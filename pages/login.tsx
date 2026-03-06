@@ -13,7 +13,7 @@ export default function Login() {
     try {
       await authClient.signIn.social({
         provider: 'github',
-        callbackURL: window.location.origin + '/',
+        callbackURL: 'https://prueba-tecnica-erp-prevalentware-ke.vercel.app/',
       });
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
@@ -49,8 +49,8 @@ export default function Login() {
           <Image
             src='/logo-prevalentware.png'
             alt='PrevalentWare'
-            width={260}
-            height={65}
+            width={300}
+            height={75}
             className='object-contain'
             priority
           />
