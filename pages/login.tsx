@@ -1,6 +1,6 @@
 import { authClient } from '@/lib/auth/client';
 import { Button } from '@/components/ui/button';
-import { Github, ArrowRight, ShieldCheck, Lock } from 'lucide-react';
+import { Github, ArrowRight, Lock } from 'lucide-react';
 import { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -42,19 +42,19 @@ export default function Login() {
       />
 
       {/* Contenido principal */}
-      <div className='z-10 flex flex-col items-center gap-10 w-full max-w-sm px-4'>
+      <div className='z-10 flex flex-col items-center gap-12 w-full max-w-sm px-4'>
 
         {/* Logo de PrevalentWare - blanco, directamente sobre el fondo oscuro */}
-        <div className='flex flex-col items-center gap-3'>
+        <div className='flex flex-col items-center gap-4'>
           <Image
             src='/logo-prevalentware.png'
             alt='PrevalentWare'
-            width={200}
-            height={50}
+            width={260}
+            height={65}
             className='object-contain'
             priority
           />
-          <span className='text-slate-500 text-sm tracking-widest uppercase font-medium'>
+          <span className='text-slate-500 text-xs tracking-[0.3em] uppercase font-semibold opacity-80'>
             ERP Financiero
           </span>
         </div>
@@ -62,14 +62,10 @@ export default function Login() {
         {/* Card de login con glassmorphism */}
         <div className='w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl shadow-black/40'>
           <div className='mb-8 text-center'>
-            {/* Ícono con brillo */}
-            <div className='inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/30 mb-4'>
-              <ShieldCheck className='w-5 h-5 text-blue-400' />
-            </div>
-            <h2 className='text-xl font-bold text-white tracking-tight'>
+            <h2 className='text-3xl font-bold text-white tracking-tight'>
               Acceso Seguro
             </h2>
-            <p className='text-slate-400 text-sm mt-1'>
+            <p className='text-slate-400 text-sm mt-3'>
               Autentícate con tu cuenta corporativa de GitHub
             </p>
           </div>
