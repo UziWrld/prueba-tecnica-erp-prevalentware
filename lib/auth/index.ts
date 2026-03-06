@@ -3,8 +3,8 @@ import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { prisma } from '@/lib/prisma';
 
 export const auth = betterAuth({
-  // URL de producción fija para que GitHub OAuth coincida siempre
-  baseURL: 'https://prueba-tecnica-erp-prevalentware-ke.vercel.app',
+  // URL base dinámica que se adapta a Vercel (Producción o Preview)
+  baseURL: process.env.BETTER_AUTH_URL || (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : undefined),
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),

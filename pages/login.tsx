@@ -13,7 +13,7 @@ export default function Login() {
     try {
       await authClient.signIn.social({
         provider: 'github',
-        callbackURL: 'https://prueba-tecnica-erp-prevalentware-ke.vercel.app/',
+        callbackURL: window.location.origin + '/',
       });
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
