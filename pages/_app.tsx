@@ -53,7 +53,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const role = (session?.user as any)?.role as string | undefined;
 
   return (
-    <Layout role={role}>
+    <Layout user={session?.user}>
       <Component {...pageProps} user={session?.user} />
     </Layout>
   );

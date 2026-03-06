@@ -12,11 +12,12 @@ import { authClient } from '@/lib/auth/client';
 
 export default function Layout({
   children,
-  role,
+  user,
 }: {
   children: React.ReactNode;
-  role?: string;
+  user?: any;
 }) {
+  const role = user?.role;
   const router = useRouter();
 
   // Función para manejar el cierre de sesión usando Better Auth
@@ -117,15 +118,19 @@ export default function Layout({
           <div className='flex items-center gap-4'>
             <div className='flex items-center gap-3'>
               <div className='text-right hidden md:block'>
-                <p className='text-sm font-semibold text-slate-700'>
-                  Usuario Activo
+                <p className='text-sm font-semibold text-slate-700 leading-tight'>
+                  {user?.name || 'Usuario'}
                 </p>
-                <p className='text-xs text-slate-500'>
+                <p className='text-[10px] text-slate-500 font-medium uppercase tracking-wider mt-0.5'>
                   {role === 'ADMIN' ? 'Administrador' : 'Colaborador'}
                 </p>
               </div>
-              <div className='w-10 h-10 rounded-full border-2 border-blue-100 bg-blue-50 flex items-center justify-center text-blue-700 font-bold overflow-hidden'>
-                <UserCog className='w-5 h-5 text-blue-500' />
+              <div className='w-10 h-10 rounded-full border-2 border-indigo-100 bg-indigo-50 flex items-center justify-center text-indigo-700 font-bold overflow-hidden shadow-inner'>
+                {user?.image ? (
+                  <img src={user.image} alt={user.name} className='w-full h-full object-cover' />
+                ) : (
+                  <span className='text-sm'>{user?.name?.charAt(0) || 'U'}</span>
+                )}
               </div>
             </div>
           </div>
