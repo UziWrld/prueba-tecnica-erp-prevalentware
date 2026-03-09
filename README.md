@@ -101,6 +101,21 @@ El proyecto incluye documentación automática con Swagger UI. Puedes consultarl
 
 ---
 
+## Instrucciones de Despliegue en Vercel
+
+Para desplegar esta aplicación en Vercel, siga estos pasos:
+
+1. **Subir a GitHub**: Asegúrese de que el código esté en un repositorio de GitHub (público o privado).
+2. **Crear Proyecto en Vercel**: 
+   - Vaya al dashboard de Vercel y haga clic en **"Add New"** > **"Project"**.
+   - Importe el repositorio desde GitHub.
+3. **Configurar Variables de Entorno**: 
+   En la pestaña de **Environment Variables**, agregue todas las variables definidas en el archivo `.env.local`.
+   - Asegúrese de que `BETTER_AUTH_URL` y `NEXT_PUBLIC_BETTER_AUTH_URL` apunten a la URL de producción (ej. `https://nombre-app.vercel.app`).
+4. **Desplegar**: Haga clic en **"Deploy"**. Vercel configurará automáticamente el entorno de Next.js y realizará el build del proyecto.
+
+---
+
 ## Nota sobre Entrega
 La base de datos se entrega con datos de prueba reales para demostrar la funcionalidad completa de los reportes y el sistema de roles. Se recomienda iniciar sesión con la cuenta de GitHub asociada para verificar el acceso administrativo.
 
